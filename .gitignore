@@ -31,3 +31,5 @@ octave-workspace
 # don't sync the input data files
 data/*.mat
 
+#ignore ini file
+*.ini
