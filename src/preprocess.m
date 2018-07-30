@@ -1,4 +1,9 @@
 % in this code we do any manipulation of the data needed before any other codes
+
+pwd
+
+z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'))
+
 sl=(1:900)*0.25;
 time=2:900;
 topo=permute(z(time,:,:),[2 3 1]);
@@ -7,10 +12,7 @@ dtopo=topo-topoprev;
 dtopo2=dtopo;
 RSLR=0.25-dtopo2;
 
-dz = z(2:end, :,:)-z(1:end-1,:,:);
-histogram(dz(:))
-sl=(1:900)*0.25;
-time = 2:900;
+
 
 for i=2:900;
     x= sl(i);
