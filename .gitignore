@@ -29,5 +29,5 @@ octave-workspace
 *.sublime-workspace
 
 # don't sync the input data files
-data/*.txt
+data/*.mat
 
