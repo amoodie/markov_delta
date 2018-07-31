@@ -1,5 +1,7 @@
 % in this code we do any manipulation of the data needed before any other codes
 
+clear variables
+
 z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
 z = z.z; % 900 = t, 455 = x, 391 = y
 
@@ -29,7 +31,12 @@ dz = z(2:end, :, :) - z(1:end-1, :, :); % vectorized dz
 
 nbins = 9;
 
+dz16 = quantile(dz(:), 0.16); % 16th percentile
+dz84 = quantile(dz(:), 0.84);
+
+dz = dz( and(dz > dz16, dz < dz84) ); % trim the distribution to percentile
+
 figure()
 histogram(dz(:), nbins);
 
-[hc] = histcounts(dz(:, nbins);
+[hc] = histcounts(dz(:), nbins);
