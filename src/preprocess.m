@@ -2,9 +2,12 @@
 
 clear variables
 
+%%
+disp('loading...')
 z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
 z = z.z; % 900 = t, 455 = x, 391 = y
 
+%%
 sl = (1:900) .* 0.25; % sea level at each time t
 % time = 2:900; % shouldn't time start at 0 and we index it beyond that?
 % topo = permute(z(time, :, :), [2, 3, 1]);
@@ -20,6 +23,7 @@ sl = (1:900) .* 0.25; % sea level at each time t
 %     toposave(i,:,:)=permute(topo,[3,1,2]);
 % end
 
+disp('removing marine elements')
 T = 0:900; % one element longer than scans
 for t = T(2:end)
     slt = sl(t); % sea level at time t
@@ -27,6 +31,8 @@ for t = T(2:end)
     z(t, mart) = NaN; % replace at identified indicies
 end
 
+%%
+disp('calculating dz and cleaning hist')
 dz = z(2:end, :, :) - z(1:end-1, :, :); % vectorized dz
 
 nbins = 9;
@@ -36,6 +42,7 @@ dz84 = quantile(dz(:), 0.84);
 
 dz = dz( and(dz > dz16, dz < dz84) ); % trim the distribution to percentile
 
+%%
 figure()
 histogram(dz(:), nbins);
 
