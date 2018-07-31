@@ -13,13 +13,15 @@ hc = dzs.dzs.hc;
 bc = be(1) + cumsum( (be(2:end) - be(1:end-1)) / 2 ); % bin centers
 
 markov_mat = zeros(length(hc)); % rows = to, cols = from
-neldz = numel(dz);
+neldz = numel(dz); % number of elements in dz
+dzp = permute(dz, [3, 2, 1]);
 
 %% loop to determine next state for given bin
-for s = 1:length(be)-1
-    hcs = bc(s); % current state bin
-    sidx = and(dz >= be(s), dz < be(s+1)); % indicies at current state
-    sidxp1 = find(sidx)+1;
+disp('determining matrix...')
+for s = 1:length(bc)
+%     hcs = bc(s); % current state bin
+    sidx = and(dzp >= be(s), dzp < be(s+1)); % indicies at current state
+    sidxp1 = find(sidx) + numel(dzp(:, :, 1)); % index one slice below
     sidxp1 = sidxp1(sidxp1 <= neldz);
     dzsp1 = dz(sidxp1); % dz value for state plus 1
     hcs = histcounts(dzsp1, be); % hist counts
