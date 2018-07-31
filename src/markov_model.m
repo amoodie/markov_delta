@@ -8,6 +8,7 @@
 
 
 %% evaluate the model 1 time
+RSLR = 0.25; % need to make sure to add RSLR on each step to make a net aggradation
 
 
 %% evaluate 1000 times and compute stats
