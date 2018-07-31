@@ -31,7 +31,7 @@ for t = T(2:end)
     z(t, mart) = NaN; % replace at identified indicies
 end
 
-%%
+%% determine histogram properties
 disp('calculating dz and cleaning histogram...')
 dz = z(2:end, :, :) - z(1:end-1, :, :); % vectorized dz
 
@@ -42,16 +42,18 @@ dz70 = quantile(dz(:), 0.70);
 
 dz( and(dz <= dz16, dz >= dz84) ) = NaN; % trim the distribution to percentiles
 
-%% make histogram
 nbins = 7^2;
 binspacing = (dz84 - dz16) / (nbins - 1);
 hbs = binspacing / 2;
 binedges = [dz16-hbs:binspacing:0-hbs, 0+hbs:binspacing:dz84+hbs]; % define bin edges manually for central bin on zero
 
-%%
+%% plot it up
 disp('plotting histogram...')
 figure()
-histogram(dz(), binedges);
+histogram(dz(randi(numel(dz), 10000, 1)), binedges);
 
+
+%% prepare data for export and save it
 [hc] = histcounts(dz(:), binedges);
+
 
