@@ -11,6 +11,7 @@ z = z.z; % 900 = t, 455 = x, 391 = y
 
 %% clean out marine elements
 disp('removing marine elements...')
+sl = (1:900) * 0.25;
 T = 0:900; % one element longer than scans
 for t = T(2:end)
     slt = sl(t); % sea level at time t
@@ -31,7 +32,7 @@ dz70 = quantile(dz(:), 0.70);
 dz( and(dz <= dz16, dz >= dz84) ) = NaN; % trim the distribution to percentiles
 
 nbins = 7^2;
-binspacing = (dz84 - dz16) / (nbins - 1);
+binspacing = (dz84 - dz16) / (nbins);
 hbs = binspacing / 2;
 binedges = [dz16-hbs:binspacing:0-hbs, 0:binspacing:dz84+hbs]; % define bin edges manually for central bin on zero
 
@@ -59,7 +60,7 @@ end
 dzs.dz = dz;
 dzs.hc = hc;
 dzs.be = binedges;
-save(fullfile('..', 'data', 'dzs.m'), 'strat')
+save(fullfile('..', 'data', 'dzs.mat'), 'dzs')
 
-save(fullfile('..', 'data', 'strat.m'), 'strat')
+save(fullfile('..', 'data', 'strat.mat'), 'strat')
 
