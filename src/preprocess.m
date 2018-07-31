@@ -1,7 +1,5 @@
 % in this code we do any manipulation of the data needed before any other codes
 
-pwd
-
 z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'))
 
 sl=(1:900)*0.25;
