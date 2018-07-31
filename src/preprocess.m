@@ -52,8 +52,20 @@ disp('plotting histogram...')
 figure()
 histogram(dz(randi(numel(dz), 10000, 1)), binedges);
 
+%% calculate stratigraphy 
+disp('looping to calculate stratigraphy')
+strat = NaN(size(dz)); % preallocate
+strat(end, :, :) = z(end, :, :);
+for t = size(z, 1)-1:-1:1
+%     strat(t, :, :) = min([squeeze(z(t, :, :)), squeeze(strat(t+1, :, :))]); % not elementwise
+    tmat = squeeze(z(t, :, :));
+    tp1mat = squeeze(z(t+1, :, :));
+    strat(t, :, :) = ((tmat+tp1mat) - abs(tmat-tp1mat))/2; % solution for elementwise minimum
+end
 
 %% prepare data for export and save it
 [hc] = histcounts(dz(:), binedges);
+
+save(fullfile('..', 'data', 'strat.m'), 'strat')
 
 
