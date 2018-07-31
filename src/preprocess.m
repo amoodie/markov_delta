@@ -23,7 +23,7 @@ sl = (1:900) .* 0.25; % sea level at each time t
 %     toposave(i,:,:)=permute(topo,[3,1,2]);
 % end
 
-disp('removing marine elements')
+disp('removing marine elements...')
 T = 0:900; % one element longer than scans
 for t = T(2:end)
     slt = sl(t); % sea level at time t
@@ -32,18 +32,26 @@ for t = T(2:end)
 end
 
 %%
-disp('calculating dz and cleaning hist')
+disp('calculating dz and cleaning histogram...')
 dz = z(2:end, :, :) - z(1:end-1, :, :); % vectorized dz
-
-nbins = 9;
 
 dz16 = quantile(dz(:), 0.16); % 16th percentile
 dz84 = quantile(dz(:), 0.84);
+dz30 = quantile(dz(:), 0.30);
+dz70 = quantile(dz(:), 0.70);
 
-dz = dz( and(dz > dz16, dz < dz84) ); % trim the distribution to percentile
+dz( and(dz <= dz16, dz >= dz84) ) = NaN; % trim the distribution to percentiles
+
+%% make histogram
+nbins = 7^2;
+binspacing = (dz84 - dz16) / (nbins - 1);
+hbs = binspacing / 2;
+binedges = [dz16-hbs:binspacing:0-hbs, 0+hbs:binspacing:dz84+hbs]; % define bin edges manually for central bin on zero
 
 %%
+disp('plotting histogram...')
 figure()
-histogram(dz(:), nbins);
+histogram(dz(), binedges);
 
-[hc] = histcounts(dz(:), nbins);
+[hc] = histcounts(dz(:), binedges);
+
