@@ -5,7 +5,8 @@ clear variables
 
 %% load vars
 disp('loading...')
-z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
+z = load(fullfile('..', 'data', 'TDB_12_Dry_z_SUB.mat')); % this file is a subset to help run faster for dev
+% z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
 z = z.z; % 900 = t, 455 = x, 391 = y
 
 
@@ -28,13 +29,15 @@ dz16 = quantile(dz(:), 0.16); % 16th percentile
 dz84 = quantile(dz(:), 0.84);
 dz30 = quantile(dz(:), 0.30);
 dz70 = quantile(dz(:), 0.70);
+dz05 = quantile(dz(:), 0.05);
+dz95 = quantile(dz(:), 0.95);
 
-dz( and(dz <= dz16, dz >= dz84) ) = NaN; % trim the distribution to percentiles
+dz( and(dz <= dz05, dz >= dz95) ) = NaN; % trim the distribution to percentiles
 
-nbins = 7^2;
-binspacing = (dz84 - dz16) / (nbins);
+nbins = 5^2;
+binspacing = (dz95 - dz05) / (nbins);
 hbs = binspacing / 2;
-binedges = [dz16-hbs:binspacing:0-hbs, 0:binspacing:dz84+hbs]; % define bin edges manually for central bin on zero
+binedges = dz05-hbs:binspacing:dz95+hbs; % define bin edges manually for central bin on zero
 
 
 %% plot it up
