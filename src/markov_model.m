@@ -16,9 +16,9 @@ mmcs = cumsum(mm, 1, 'reverse');
 T = 1:900;
 zs = [];
 
-% figure()
-% [x, y] = meshgrid(bc, bc);
-% surface(x, y, mmcs, 'EdgeColor', 'k')
+figure()
+[x, y] = meshgrid(bc, bc);
+surface(x, y, mmcs, 'EdgeColor', 'k')
 
 
 %% evaluate the model 1 time
@@ -35,7 +35,7 @@ for t = T
     ts(t) = t;
     
     % find the bin
-    cidx = find(dz < be, 1, 'first') - 1; % first greater than minus one is idx
+    cidx = find(dz < bc, 1, 'first') - 1; % first greater than minus one is idx
 
     % generate a random number in interval [0 1]
     newrand = rand(1);
