@@ -35,15 +35,17 @@ for t = T
     ts(t) = t;
     
     % find the bin
-    cidx = find(dz < bc, 1, 'first') - 1; % first greater than minus one is idx
+    cidx = find(dz <= be, 1, 'first') - 1; % first greater than minus one is idx
 
     % generate a random number in interval [0 1]
     newrand = rand(1);
 
     % determine which prob bin it falls in to
     dzidx = find(mmcs(:, cidx) < newrand, 1, 'first');
-    %% ERRORS WHEN dz < first bin
-    dz = be(dzidx);
+    if isempty(dzidx)
+        dzidx = 1; % SLOPPY HANDLING of case
+    end
+    dz = bc(dzidx);
     
     % go that far in z
     z = z + dz;
@@ -51,12 +53,16 @@ for t = T
     % add RSLR in z
     z = z + RSLR;
     
+    % add some random chance of avulsion? (by selecting a new dz randomly?)
+    
     % plot
     stairs(ts, zs)
     drawnow
     
 end
 
+%% load strat columns to compare
+load(fullfile('..', 'data', 'rcols.mat'))
 
 
 %% evaluate 1000 times and compute stats
