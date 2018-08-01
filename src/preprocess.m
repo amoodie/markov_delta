@@ -70,6 +70,7 @@ if false
 end
 
 %% subsample some random strat columns to save
+disp('subsampling strat columns...')
 rcols.rxs = randi(size(strat, 2), 100, 1);
 rcols.rys = randi(size(strat, 3), 100, 1);
 rcols.z = z(:, rcols.rxs, rcols.rys);
@@ -77,6 +78,7 @@ rcols.strat = strat(:, rcols.rxs, rcols.rys);
 
 
 %% prepare data for export and save it
+disp('saving data...')
 [hc] = histcounts(dz(:), binedges);
 dzs.dz = dz;
 dzs.hc = hc;
