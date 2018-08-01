@@ -6,7 +6,7 @@ clear variables
 %% load vars
 disp('loading...')
 z = load(fullfile('..', 'data', 'TDB_12_Dry_z_SUB.mat')); % this file is a subset to help run faster for dev
-% z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
+%z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
 z = z.z; % 900 = t, 455 = x, 391 = y
 
 
@@ -49,15 +49,23 @@ histogram(dz(randi(numel(dz), 100000, 1)), binedges);
 
 %% calculate stratigraphy 
 disp('looping to calculate stratigraphy')
-strat = NaN(size(dz)); % preallocate
+
+strat = NaN(size(z)); % preallocate
 strat(end, :, :) = z(end, :, :);
-for t = size(z, 1)-1:-1:1
-%     strat(t, :, :) = min([squeeze(z(t, :, :)), squeeze(strat(t+1, :, :))]); % not elementwise
-    tmat = squeeze(z(t, :, :));
-    tp1mat = squeeze(z(t+1, :, :));
-    strat(t, :, :) = bsxfun(@min, tmat, tp1mat); % solution for elementwise minimum
+
+for t = T(end-1:-1:2)
+    tmat = squeeze(z(t, :, :)); % matrix at t
+    tp1mat = squeeze(strat(t+1, :, :)); % matrix from strat at t+1
+    strat(t, :, :) = bsxfun(@min, tmat, tp1mat); % solution for elementwise minimum.
 end
 
+figure()
+[x, y] = meshgrid(1:101, 1:101);
+for t = 1:size(strat, 1)
+    surf(x, y, squeeze(z(t, :, :)), 'EdgeColor', 'none')
+    view([0 90])
+    drawnow
+end
 
 %% prepare data for export and save it
 [hc] = histcounts(dz(:), binedges);

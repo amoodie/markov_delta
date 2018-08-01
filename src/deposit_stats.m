@@ -3,4 +3,6 @@
 
 %% mean record time? 
 
+
+
 %% stasis fraction?
