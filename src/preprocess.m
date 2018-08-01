@@ -5,8 +5,8 @@ clear variables
 
 %% load vars
 disp('loading...')
-z = load(fullfile('..', 'data', 'TDB_12_Dry_z_SUB.mat')); % this file is a subset to help run faster for dev
-%z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
+% z = load(fullfile('..', 'data', 'TDB_12_Dry_z_SUB.mat')); % this file is a subset to help run faster for dev
+z = load(fullfile('..', 'data', 'TDB_12_Dry_z.mat'));
 z = z.z; % 900 = t, 455 = x, 391 = y
 
 
@@ -47,7 +47,7 @@ figure()
 histogram(dz(randi(numel(dz), 100000, 1)), binedges);
 
 
-%% calculate stratigraphy 
+%% calculate stratigraphy
 disp('looping to calculate stratigraphy')
 
 strat = NaN(size(z)); % preallocate
@@ -59,13 +59,22 @@ for t = T(end-1:-1:2)
     strat(t, :, :) = bsxfun(@min, tmat, tp1mat); % solution for elementwise minimum.
 end
 
-figure()
-[x, y] = meshgrid(1:101, 1:101);
-for t = 1:size(strat, 1)
-    surf(x, y, squeeze(z(t, :, :)), 'EdgeColor', 'none')
-    view([0 90])
-    drawnow
+if false
+    figure()
+    [x, y] = meshgrid(1:101, 1:101);
+    for t = 1:size(strat, 1)
+        surf(x, y, squeeze(z(t, :, :)), 'EdgeColor', 'none')
+        view([0 90])
+        drawnow
+    end
 end
+
+%% subsample some random strat columns to save
+rcols.rxs = randi(size(strat, 2), 100, 1);
+rcols.rys = randi(size(strat, 3), 100, 1);
+rcols.z = z(:, rcols.rxs, rcols.rys);
+rcols.strat = strat(:, rcols.rxs, rcols.rys);
+
 
 %% prepare data for export and save it
 [hc] = histcounts(dz(:), binedges);
@@ -76,3 +85,4 @@ save(fullfile('..', 'data', 'dzs.mat'), 'dzs')
 
 save(fullfile('..', 'data', 'strat.mat'), 'strat')
 
+save(fullfile('..', 'data', 'rcols.mat'), 'rcols')
