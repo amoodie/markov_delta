@@ -39,4 +39,8 @@ hold on;
 % plot([min(x), max(x)], [min(y), max(y)], 'LineWidth', 1.5', 'k--')
 axis square
 
-j=1;
+%% save the data
+mm.mm = markov_mat;
+mm.be = be;
+mm.bc = bc;
+save(fullfile('..', 'data', 'markov_mat.mat'), 'mm')
