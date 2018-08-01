@@ -55,14 +55,22 @@ for t = T
     
     % add some random chance of avulsion? (by selecting a new dz randomly?)
     
-    % plot
-    stairs(ts, zs)
-    drawnow
+%     stairs(ts, zs)
+%     drawnow
     
 end
 
 %% load strat columns to compare
 load(fullfile('..', 'data', 'rcols.mat'))
+hold on
+rcols.ts = 1:size(rcols.strat, 1);
+for p = 1:size(rcols.strat, 2)
+    stairs(rcols.ts, rcols.strat(:, p), 'Color', [0.8 0.8 0.8])
+end
+stairs(ts, zs, 'Color', 'red', 'LineWidth', 2)
 
+
+j=1;
+ 
 
 %% evaluate 1000 times and compute stats
