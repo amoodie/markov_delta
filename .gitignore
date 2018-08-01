@@ -33,3 +33,6 @@ data/*.mat
 
 #ignore ini file
 *.ini
+
+#ignore output images
+figs/*

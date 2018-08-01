@@ -24,7 +24,7 @@ end
 %% determine histogram properties
 disp('calculating dz and cleaning histogram...')
 dz = z(2:end, :, :) - z(1:end-1, :, :); % vectorized dz
-dz = cat(1, NaN(1, size(z, 2), size(z, 3)), dz); % unknown elevation change at time 1
+dz = cat(1, zeros(1, size(z, 2), size(z, 3)), dz); % unknown elevation change at time 1
 
 dz16 = quantile(dz(:), 0.16); % 16th percentile
 dz84 = quantile(dz(:), 0.84);
