@@ -28,6 +28,7 @@ z = 0;
 dz = 0; % random value for initial from within interval
 
 figure()
+avulct = 0;
 
 for t = T
     % store
@@ -54,6 +55,19 @@ for t = T
     z = z + RSLR;
     
     % add some random chance of avulsion? (by selecting a new dz randomly?)
+%     b = 0.05;
+%     D = 0.2;
+%     arand = b*rand(1,1).^(-1+D);
+%     athresh = 0.03;
+%     if arand > athresh
+%         if arand > length(bc)
+%             arand = 26;
+%         else
+%             ceil(arand);
+%         end
+%         dz = bc(ceil(arand));
+%         avulct = avulct + 1;
+%     end
     
 %     stairs(ts, zs)
 %     drawnow
@@ -61,6 +75,7 @@ for t = T
 end
 
 %% load strat columns to compare
+figure()
 load(fullfile('..', 'data', 'rcols.mat'))
 hold on
 rcols.ts = 1:size(rcols.strat, 1);
