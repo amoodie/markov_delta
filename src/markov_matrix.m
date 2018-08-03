@@ -28,15 +28,18 @@ for s = 1:length(bc)
     markov_mat(:, s) = nhcs'; % into storage
 end
 
-figure()
-histogram(dzpsp1, be, 'Normalization', 'probability')
-
 %% plot the matrix
 figure()
 [x, y] = meshgrid(bc, bc);
 surface(x, y, markov_mat, 'EdgeColor', 'k')
 hold on;
-% plot([min(x), max(x)], [min(y), max(y)], 'LineWidth', 1.5', 'k--')
+l = plot3([min(bc); max(bc)], [min(bc); max(bc)], [1; 1], 'Color', 'k', 'LineWidth', 2);
+xlabel('current state')
+ylabel('next state')
+xlim([min(bc), max(bc)])
+ylim([min(bc), max(bc)])
+cb = colorbar;
+cb.Label.String = 'probability';
 axis square
 
 %% save the data
