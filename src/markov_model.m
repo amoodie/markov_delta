@@ -93,12 +93,11 @@ stairs(ts, zs, 'Color', 'red', 'LineWidth', 2)
 fitvars_b = polyfit(ts, zs, 1);
 m_b = fitvars_b(1);
 
-xlabel('Time (hours)')
-ylabel('Elevation (mm)')
+xlabel('Time (hours)', 'FontSize', 14)
+ylabel('Z (mm)', 'FontSize', 14)
 text(0.3,0.7, ['model slope=' num2str(round(m_b,2))], 'units', 'normalized', 'fontsize', 16)
-text(0.45, 0.17, ['expt. mean slope =' num2str(round(average_slope,2))], 'units', 'normalized', 'fontsize',16)
-
-j=1;
+text(0.40, 0.15, ['expt. mean slope =' num2str(round(average_slope,2))], 'units', 'normalized', 'fontsize',16)
+print('-dpng', '-r300', fullfile('..', 'figs', 'model_out.png'));
  
 
 %% evaluate 1000 times and compute stats

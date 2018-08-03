@@ -12,7 +12,7 @@ hc = dzs.dzs.hc;
 
 bc = be(1) + cumsum( (be(2:end) - be(1:end-1)) ); % bin centers
 
-markov_mat = zeros(length(bc)); % rows = to, cols = from
+markov_mat = zeros(length(bc)); % rows = from, cols = to
 neldz = numel(dz); % number of elements in dz
 dzp = permute(dz, [2, 3, 1]);
 
@@ -25,7 +25,7 @@ for s = 1:length(bc)
     dzpsp1 = dzp(sidxp1); % dzp value for state plus 1
     hcs = histcounts(dzpsp1, be); % hist counts
     nhcs = hcs ./ nansum(hcs); % normalized histcounts
-    markov_mat(:, s) = nhcs'; % into storage
+    markov_mat(s, :) = nhcs; % into storage
 end
 
 %% plot the matrix
@@ -34,13 +34,15 @@ figure()
 surface(x, y, markov_mat, 'EdgeColor', 'k')
 hold on;
 l = plot3([min(bc); max(bc)], [min(bc); max(bc)], [1; 1], 'Color', 'k', 'LineWidth', 2);
-xlabel('current state')
-ylabel('next state')
+xlabel('next state', 'FontSize', 14)
+ylabel('current state', 'FontSize', 14)
 xlim([min(bc), max(bc)])
 ylim([min(bc), max(bc)])
 cb = colorbar;
 cb.Label.String = 'probability';
+cb.Label.FontSize = 14;
 axis square
+print('-dpng', '-r300', fullfile('..', 'figs', 'markov_matrix.png'));
 
 %% save the data
 mm.mm = markov_mat;
