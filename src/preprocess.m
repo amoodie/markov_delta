@@ -80,11 +80,16 @@ end
 
 %% subsample some random strat columns to save
 disp('subsampling strat columns...')
+
 rcols.rxs = randi(size(strat, 2), 100, 1);
 rcols.rys = randi(size(strat, 3), 100, 1);
-rcols.z = z(:, rcols.rxs, rcols.rys);
-rcols.strat = strat(:, rcols.rxs, rcols.rys);
 
+rcols.z = zeros(900, 100);
+rcols.strat = zeros(900, 100);
+for i = 1:100
+    rcols.z(:,i) = z(:,rcols.rxs(i), rcols.rys(i));
+    rcols.strat(:,i) = strat(:, rcols.rxs(i), rcols.rys(i));
+end
 
 %% prepare data for export and save it
 disp('saving data...')
