@@ -79,17 +79,30 @@ figure()
 load(fullfile('..', 'data', 'rcols.mat'))
 hold on
 
-rcols.ts = 1:size(rcols.strat, 1);
-fitvars = size(rcols.strat);
-m = size(rcols.strat);
-for p = 1:size(rcols.strat, 2)
+
+m_strat = NaN(size(zs)); % preallocate
+m_strat(end) = zs(end);
+
+for t = T(end-1:-1:1)
+%     t_m_mat = squeeze(m_strat(t)); % matrix at t
+%     tp1_m_mat = squeeze(m_strat(t+1)); % matrix from strat at t+1
+%     m_strat(t) = bsxfun(@min, t_m_mat, tp1_m_mat); % solution for elementwise minimum.
+    
+    m_strat(t) = min([zs(t), m_strat(t+1)]);
+end
+
+rcols.ts = T;
+fitvars = size(rcols.rxs);
+m = size(rcols.rxs);
+
+for p = 1:size(rcols.rys, 1)
     stairs(rcols.ts, rcols.strat(:, p), 'Color', [0.8 0.8 0.8])
     fitvars = polyfit(rcols.ts', rcols.strat(:,p), 1);
     m(p) = fitvars(1);
 end
 
 average_slope = nanmean(m);
-stairs(ts, zs, 'Color', 'red', 'LineWidth', 2)
+stairs(T, m_strat, 'Color', 'red', 'LineWidth', 2)
 fitvars_b = polyfit(ts, zs, 1);
 m_b = fitvars_b(1);
 
