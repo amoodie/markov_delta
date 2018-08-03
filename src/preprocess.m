@@ -35,19 +35,20 @@ dz95 = quantile(dz(:), 0.95);
 
 dz( and(dz <= dz05, dz >= dz95) ) = NaN; % trim the distribution to percentiles
 
-nbins = 5^2;
-binspacing = (dz95 - dz05) / (nbins);
-hbs = binspacing / 2;
-binedges = dz05-hbs:binspacing:dz95+hbs; % define bin edges manually for central bin on zero
+% nbins = 5^2;
+% binspacing = (dz95 - dz05) / (nbins);
+% hbs = binspacing / 2;
+% binedges = dz05-hbs:binspacing:dz95+hbs; % define bin edges manually for central bin on zero
+binedges = -0.6875:0.125:1.6875;
 
 
 %% plot it up
 disp('plotting histogram...')
 figure()
 histogram(dz(randi(numel(dz), 100000, 1)), binedges, 'Normalization', 'probability');
+xlabel('\Delta z', 'FontSize', 14)
+ylabel('probability', 'FontSize', 14)
 print('-dpng', '-r300', fullfile('..', 'figs', 'delta_hist.png'));
-xlabel('\Delta z')
-ylabel('probability')
 
 
 %% calculate stratigraphy
