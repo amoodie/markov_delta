@@ -44,7 +44,10 @@ binedges = dz05-hbs:binspacing:dz95+hbs; % define bin edges manually for central
 %% plot it up
 disp('plotting histogram...')
 figure()
-histogram(dz(randi(numel(dz), 100000, 1)), binedges);
+histogram(dz(randi(numel(dz), 100000, 1)), binedges, 'Normalization', 'probability');
+print('-dpng', '-r300', fullfile('..', 'figs', 'delta_hist.png'));
+xlabel('\Delta z')
+ylabel('probability')
 
 
 %% calculate stratigraphy
@@ -61,11 +64,17 @@ end
 
 if false
     figure()
-    [x, y] = meshgrid(1:101, 1:101);
+    [x, y] = meshgrid(1:size(z, 3), 1:size(z, 2));
     for t = 1:size(strat, 1)
         surf(x, y, squeeze(z(t, :, :)), 'EdgeColor', 'none')
         view([0 90])
+        box on
+        axis equal
+        xlim([1 400])
+        ylim([1 400])
         drawnow
+        text(0.8, 0.8, ['t = ' num2str(t) 'h'], 'Units', 'Normalized')
+        print('-dpng', '-r200', fullfile('..', 'figs', 'movs', sprintf('%03d.png', t)));
     end
 end
 
