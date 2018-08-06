@@ -15,7 +15,7 @@ We used the [Tulane Delta Basin experiment 12-1](http://sedexp.net/catalog/tdb12
 Three models were produced: a purely random walk model, a Gaussian distributed Markov transition matrix, and a Markov transition matrix that was based on the observed elevation changes in the TDB-12-1 experiment.
 
 ![unif](./private/unif_matrix.png "unif matrix")
-![gaus](./private/gaus_matrix.png "gaus matrix")
+![gaus](./private/gaus_matrix.png "gaus matrix") <!-- .element height="50%" width="50%" -->
 ![main](./private/markov_matrix.png "main matrix")
 
 The result from _a single realization of each model_ is below. 
