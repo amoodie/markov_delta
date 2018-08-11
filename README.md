@@ -5,7 +5,8 @@
 The outcome of a simple project during the SIESD 2018, where we looked at the randomness of elevation change (dz/dt) in deltas.
 We used Markov Chains to model sequences of elevation changes in a stratigraphic column and converted these sequences to stratigraphy based on the concept of a "stratigraphic filter".
 
-
+You can view a summary of the project on Andrew's blog here:
+[http://andrewjmoodie.com/2018/08/markov-chain-stratigraphic-model/](http://andrewjmoodie.com/2018/08/markov-chain-stratigraphic-model/)
 
 ## Summary of the modeling and results
 We used the [Tulane Delta Basin experiment 12-1](http://sedexp.net/catalog/tdb121-tulane-delta-basin) which has a constant Qw/Qs ratio and RSLR rate to inform our model.
